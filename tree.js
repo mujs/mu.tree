@@ -14,7 +14,7 @@ define('mu.tree', function (require) {
     });
   };
   
-  var walk = function (tree, func) {
+  var each = function (tree, func) {
     var path = [];
     
     return deepEach(tree, function (item, index, depth) {
@@ -42,7 +42,7 @@ define('mu.tree', function (require) {
   };
   
   return {
-    walk: walk,
+    each: each,
     path: path
   };
 });
