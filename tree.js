@@ -4,6 +4,23 @@ define('mu.tree', function (require) {
   var list = require('mu.list'),
       is   = require('mu.is');
   
+  var path = function (tree, path, value) {
+    var lastIndex = path.length - 1,
+        last = path[lastIndex];
+   
+    var parent = list.reduce(path, tree, function (acc, item, index) {
+      if (index === lastIndex) { return acc; }
+      if (is.defined(acc[item])) { return acc[item]; }
+      
+      if (is.defined(value)) {
+        return acc[item] = is.number(path[index + 1]) ? [] : {};
+      }
+    });
+   
+    if (is.defined(value)) { parent[last] = value; }
+    return parent[last];
+  };
+  
   var deepEach = function (tree, func, depth) {
     depth = is.defined(depth) ? depth + 1 : 0;
     
@@ -24,25 +41,19 @@ define('mu.tree', function (require) {
     });
   };
   
-  var path = function (tree, path, value) {
-    var lastIndex = path.length - 1,
-        last = path[lastIndex];
-   
-    var parent = list.reduce(path, tree, function (acc, item, index) {
-      if (index === lastIndex) { return acc; }
-      if (is.defined(acc[item])) { return acc[item]; }
-      
-      if (is.defined(value)) {
-        return acc[item] = is.number(path[index + 1]) ? [] : {};
-      }
+  var map = function (tree, func) {
+    var mapped = is.array(list) ? [] : {};
+    
+    each(tree, function (item, index) {
+      path(mapped, index, func(item, index));
     });
-   
-    if (is.defined(value)) { parent[last] = value; }
-    return parent[last];
+    
+    return mapped;
   };
-  
+
   return {
+    path: path,
     each: each,
-    path: path
+    map: map
   };
 });
