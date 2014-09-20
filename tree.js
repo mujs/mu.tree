@@ -1,8 +1,8 @@
 define('mu.tree', function (require) {
   'use strict';
   
-  var list = require('mu.list'),
-      is   = require('mu.is');
+  var is   = require('mu.is'),
+      list = require('mu.list');
   
   var path = function (tree, path, value) {
     var lastIndex = path.length - 1,
@@ -13,7 +13,8 @@ define('mu.tree', function (require) {
       if (is.defined(acc[item])) { return acc[item]; }
       
       if (is.defined(value)) {
-        return acc[item] = is.number(path[index + 1]) ? [] : {};
+        acc[item] = is.number(path[index + 1]) ? [] : {};
+        return acc[item];
       }
     });
    
@@ -21,20 +22,20 @@ define('mu.tree', function (require) {
     return parent[last];
   };
   
-  var deepEach = function (tree, func, depth) {
+  var iterateTree = function (tree, func, depth) {
     depth = is.defined(depth) ? depth + 1 : 0;
     
     return list.each(tree, function (item, index) {
       var exit = func(item, index, depth);
       if (is.defined(exit)) { return exit; }
-      return deepEach(item, func, depth);
+      return iterateTree(item, func, depth);
     });
   };
   
   var each = function (tree, func) {
     var path = [];
     
-    return deepEach(tree, function (item, index, depth) {
+    return iterateTree(tree, function (item, index, depth) {
       path.length = depth;
       path[depth] = index;
       return func(item, path);
