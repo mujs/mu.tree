@@ -1,33 +1,43 @@
-define('mu.tree', function (require) {
+define('mu.tree.path', function (require) {
   'use strict';
   
-  var is   = require('mu.is'),
-      list = require('mu.list');
+  var isDefined = require('mu.is.defined'),
+      reduce    = require('mu.list.reduce');
   
   var path = function (tree, path, value) {
     var lastIndex = path.length - 1,
-        last = path[lastIndex];
+        last = path[lastIndex],
+        write = isDefined(value);
    
-    var parent = list.reduce(path, tree, function (acc, item, index) {
+    var parent = reduce(path, tree, function (acc, item, index) {
       if (index === lastIndex) { return acc; }
-      if (is.defined(acc[item])) { return acc[item]; }
+      if (isDefined(acc[item])) { return acc[item]; }
       
-      if (is.defined(value)) {
-        acc[item] = is.number(path[index + 1]) ? [] : {};
+      if (write) {
+        acc[item] = isNumber(path[index + 1]) ? [] : {};
         return acc[item];
       }
     });
    
-    if (is.defined(value)) { parent[last] = value; }
+    if (write) { parent[last] = value; }
     return parent[last];
   };
   
+  return path;
+});
+
+define('mu.tree.each', function (require) {
+  'use strict';
+  
+  var isDefined = require('mu.is.defined'),
+      listEach  = require('mu.list.each');
+  
   var iterateTree = function (tree, func, depth) {
-    depth = is.defined(depth) ? depth + 1 : 0;
+    depth = isDefined(depth) ? depth + 1 : 0;
     
-    return list.each(tree, function (item, index) {
+    return listEach(tree, function (item, index) {
       var exit = func(item, index, depth);
-      if (is.defined(exit)) { return exit; }
+      if (isDefined(exit)) { return exit; }
       return iterateTree(item, func, depth);
     });
   };
@@ -42,8 +52,18 @@ define('mu.tree', function (require) {
     });
   };
   
+  return each;
+});
+
+define('mu.tree.map', function (require) {
+  'use strict';
+  
+  var isArray = require('mu.is.array'),
+      path    = require('mu.tree.path'),
+      each    = require('mu.tree.each');
+  
   var map = function (tree, func) {
-    var mapped = is.array(list) ? [] : {};
+    var mapped = isArray(list) ? [] : {};
     
     each(tree, function (item, index) {
       path(mapped, index, func(item, index));
@@ -51,10 +71,16 @@ define('mu.tree', function (require) {
     
     return mapped;
   };
+  
+  return map;
+});
+
+define('mu.tree', function (require) {
+  'use strict';
 
   return {
-    path: path,
-    each: each,
-    map: map
+    path: require('mu.tree.path'),
+    each: require('mu.tree.each'),
+    map:  require('mu.tree.map')
   };
 });
