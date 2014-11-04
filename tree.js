@@ -24,25 +24,27 @@ define('mu.tree.path', function (require) {
   'use strict';
   
   var isDefined = require('mu.is.defined'),
+      isNumber  = require('mu.is.number'),
       reduce    = require('mu.list.reduce');
   
   var path = function (tree, path, value) {
     var lastIndex = path.length - 1,
         last = path[lastIndex],
-        write = isDefined(value);
+        isSetter = isDefined(value);
    
     var parent = reduce(path, tree, function (acc, item, index) {
+      if (!isDefined(acc)) { return; }
       if (index === lastIndex) { return acc; }
-      if (isDefined(acc[item])) { return acc[item]; }
       
-      if (write) {
+      if (isSetter && !isDefined(acc[item])) {
         acc[item] = isNumber(path[index + 1]) ? [] : {};
-        return acc[item];
       }
+
+      return acc[item];
     });
    
-    if (write) { parent[last] = value; }
-    return parent[last];
+    if (isSetter) { parent[last] = value; }
+    return parent && parent[last];
   };
   
   return path;
