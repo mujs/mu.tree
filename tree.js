@@ -30,29 +30,22 @@ define('mu.tree.each', function (require) {
   'use strict';
   
   var isDefined = require('mu.is.defined'),
-      listEach  = require('mu.list.each');
+      each      = require('mu.list.each');
   
-  var iterateTree = function (tree, func, depth) {
-    depth = isDefined(depth) ? depth + 1 : 0;
-    
-    return listEach(tree, function (item, index) {
-      var exit = func(item, index, depth);
+  var iterateTree = function (tree, root, func) {
+    return each(tree, function (item, index) {
+      var path = root.concat(index);
+      var exit = func(item, path);
       if (isDefined(exit)) { return exit; }
-      return iterateTree(item, func, depth);
+      return iterateTree(item, path, func);
     });
   };
   
-  var each = function (tree, func) {
-    var path = [];
-    
-    return iterateTree(tree, function (item, index, depth) {
-      path.length = depth;
-      path[depth] = index;
-      return func(item, path);
-    });
+  var deepEach = function (tree, func) {
+    return iterateTree(tree, [], func);
   };
   
-  return each;
+  return deepEach;
 });
 
 define('mu.tree.map', function (require) {
