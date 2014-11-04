@@ -68,12 +68,50 @@ define('mu.tree.map', function (require) {
   return map;
 });
 
+define('mu.tree.leaves', function (require) {
+  'use strict';
+
+  var isScalar = require('mu.is.scalar'),
+      each     = require('mu.tree.each');
+
+  var leaves = function (tree, func) {
+    return each(tree, function (item, path) {
+      if (isScalar(item)) { return func(item, path); }
+    });
+  };
+
+  return leaves;
+});
+
+define('mu.tree.flatten', function (require) {
+  'use strict';
+
+  var leaves = require('mu.tree.leaves');
+
+  var flatten = function (tree) {
+    var flattened = [];
+
+    leaves(tree, function (leaf, path) {
+      flattened[flattened.length] = {
+        path: path,
+        node: leaf
+      };
+    });
+
+    return flattened;
+  };
+
+  return flatten;
+});
+
 define('mu.tree', function (require) {
   'use strict';
 
   return {
-    each: require('mu.tree.each'),
-    path: require('mu.tree.path'),
-    map:  require('mu.tree.map')
+    each:    require('mu.tree.each'),
+    path:    require('mu.tree.path'),
+    map:     require('mu.tree.map'),
+    leaves:  require('mu.tree.leaves'),
+    flatten: require('mu.tree.flatten')
   };
 });
