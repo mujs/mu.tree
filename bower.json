@@ -1,7 +1,7 @@
 {
   "name": "mu.tree",
   "description": "Collection of basic utilities for tree-related tasks",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "main": "tree.js",
   "dependencies": {
     "define": "*",

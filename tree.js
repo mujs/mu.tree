@@ -28,6 +28,8 @@ define('mu.tree.path', function (require) {
       reduce    = require('mu.list.reduce');
   
   var path = function (tree, path, value) {
+    if (!path.length) { return tree; }
+
     var lastIndex = path.length - 1,
         last = path[lastIndex],
         isSetter = isDefined(value);
@@ -48,6 +50,31 @@ define('mu.tree.path', function (require) {
   };
   
   return path;
+});
+
+define('mu.tree.delete', function (require) {
+  'use strict';
+
+  var isDefined = require('mu.is.defined'),
+      isScalar  = require('mu.is.scalar'),
+      path      = require('mu.tree.path');
+
+  var del = function (tree, targetPath, options) {
+    options = options || {};
+
+    var target = targetPath.pop(),
+        parentPath = targetPath,
+        parent = path(tree, parentPath);
+
+    if (isDefined(parent) && !isScalar(parent)) {
+      delete parent[target];
+      if (options.clean && Object.keys(parent).length) {
+        remove(tree, parentPath, options);
+      }
+    }
+  };
+
+  return del;
 });
 
 define('mu.tree.map', function (require) {
