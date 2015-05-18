@@ -1,5 +1,5 @@
 {
-  "pfraces/define": "master",
-  "mujs/mu.is": "master",
-  "mujs/mu.list": "master"
+  "pfraces/define": "*",
+  "mujs/mu.is": "*",
+  "mujs/mu.list": "*"
 }
