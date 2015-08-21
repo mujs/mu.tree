@@ -14,6 +14,8 @@ API
 
 ### `map(tree, fn (node, path) {})`
 
+### `copy(tree)`
+
 ### `leaves(tree, fn (node, path) {})`
 
 ### `flatten(tree)`
