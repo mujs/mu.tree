@@ -97,6 +97,17 @@ define('mu.tree.map', function (require) {
   return map;
 });
 
+define('mu.tree.copy', function (require) {
+  'use strict';
+  
+  var map = require('mu.tree.map');
+  
+  var identity = function (val) { return val; };
+  var copy = function (tree) { return map(tree, identity); };
+  
+  return copy;
+});
+
 define('mu.tree.leaves', function (require) {
   'use strict';
 
