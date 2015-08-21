@@ -6,12 +6,14 @@ Collection of basic utilities for tree-related tasks
 API
 ---
 
-### `match = each(tree, fn (path, index) {})`
+### `each(tree, fn (node, path) {})`
 
-### `value = path(tree, path, [newValue])`
+### `path(tree, path, /* newValue */)`
 
-### `tree = map(tree, fn (path, index) {})`
+### `delete(tree, path, /* options */)`
 
-### leaves
+### `map(tree, fn (node, path) {})`
 
-### flatten
+### `leaves(tree, fn (node, path) {})`
+
+### `flatten(tree)`
