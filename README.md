@@ -22,11 +22,9 @@ API
 
 `map(tree, fn (node, path) {})`
 
-### leaves
+### copy
 
-`leaves(tree, fn (node, path) {})`
-
-### `copy(tree)`
+`copy(tree)`
 
 ### flatten
 
