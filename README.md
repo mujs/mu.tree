@@ -6,11 +6,11 @@ Collection of basic utilities for tree-related tasks
 API
 ---
 
-### each
+### `match = each(tree, fn (path, index) {})`
 
-### path
+### `value = path(tree, path, [newValue])`
 
-### map
+### `tree = map(tree, fn (path, index) {})`
 
 ### leaves
 
