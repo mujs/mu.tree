@@ -97,17 +97,6 @@ define('mu.tree.map', function (require) {
   return map;
 });
 
-define('mu.tree.copy', function (require) {
-  'use strict';
-  
-  var map = require('mu.tree.map');
-  
-  var identity = function (val) { return val; };
-  var copy = function (tree) { return map(tree, identity); };
-  
-  return copy;
-});
-
 define('mu.tree.leaves', function (require) {
   'use strict';
 
@@ -121,6 +110,17 @@ define('mu.tree.leaves', function (require) {
   };
 
   return leaves;
+});
+
+define('mu.tree.copy', function (require) {
+  'use strict';
+  
+  var map = require('mu.tree.map');
+  
+  var identity = function (val) { return val; };
+  var copy = function (tree) { return map(tree, identity); };
+  
+  return copy;
 });
 
 define('mu.tree.flatten', function (require) {
@@ -142,16 +142,4 @@ define('mu.tree.flatten', function (require) {
   };
 
   return flatten;
-});
-
-define('mu.tree', function (require) {
-  'use strict';
-
-  return {
-    each:    require('mu.tree.each'),
-    path:    require('mu.tree.path'),
-    map:     require('mu.tree.map'),
-    leaves:  require('mu.tree.leaves'),
-    flatten: require('mu.tree.flatten')
-  };
 });
