@@ -97,21 +97,6 @@ define('mu.tree.map', function (require) {
   return map;
 });
 
-define('mu.tree.leaves', function (require) {
-  'use strict';
-
-  var isScalar = require('mu.is.scalar'),
-      each     = require('mu.tree.each');
-
-  var leaves = function (tree, func) {
-    return each(tree, function (item, path) {
-      if (isScalar(item)) { return func(item, path); }
-    });
-  };
-
-  return leaves;
-});
-
 define('mu.tree.copy', function (require) {
   'use strict';
   
@@ -126,7 +111,14 @@ define('mu.tree.copy', function (require) {
 define('mu.tree.flatten', function (require) {
   'use strict';
 
-  var leaves = require('mu.tree.leaves');
+  var isScalar = require('mu.is.scalar'),
+      each     = require('mu.tree.each');
+
+  var leaves = function (tree, func) {
+    return each(tree, function (item, path) {
+      if (isScalar(item)) { return func(item, path); }
+    });
+  };
 
   var flatten = function (tree) {
     var flattened = [];
