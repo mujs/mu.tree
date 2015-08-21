@@ -6,16 +6,28 @@ Collection of basic utilities for tree-related tasks
 API
 ---
 
-### `each(tree, fn (node, path) {})`
+### each
 
-### `path(tree, path, /* newValue */)`
+`each(tree, fn (node, path) {})`
 
-### `delete(tree, path, /* options */)`
+### path
 
-### `map(tree, fn (node, path) {})`
+`path(tree, path, /* newValue */)`
 
-### `leaves(tree, fn (node, path) {})`
+### delete
+
+`delete(tree, path, /* options */)`
+
+### map
+
+`map(tree, fn (node, path) {})`
+
+### leaves
+
+`leaves(tree, fn (node, path) {})`
 
 ### `copy(tree)`
 
-### `flatten(tree)`
+### flatten
+
+`flatten(tree)`
