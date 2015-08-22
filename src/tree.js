@@ -87,8 +87,8 @@ define('mu.tree.map', function (require) {
   var map = function (tree, func) {
     var mapped = isArray(tree) ? [] : {};
     
-    each(tree, function (item, path) {
-      path(mapped, path, func(item, path));
+    each(tree, function (item, index) {
+      path(mapped, index, func(item, index));
     });
     
     return mapped;
